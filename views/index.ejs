@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloud Save Manager</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cloud Save Manager</h1>
+
+      <div id="auth-section">
+        <h2>Login</h2>
+        <form id="login-form">
+          <input type="email" id="email" placeholder="Email" required /><br />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          /><br />
+          <button type="submit">Login</button>
+        </form>
+        <p id="auth-error" class="error-message"></p>
+      </div>
+
+      <div id="user-section" style="display: none">
+        <p>
+          Welcome, <span id="user-email"></span>!
+          <button id="logout-button">Logout</button>
+        </p>
+
+        <h2>Upload Save File</h2>
+        <form id="upload-form">
+          <input type="file" id="savefile" name="savefile" required /><br />
+          <input
+            type="text"
+            id="version"
+            name="version"
+            placeholder="Version (e.g., 1.0)"
+          /><br />
+          <textarea
+            id="custom_metadata"
+            name="custom_metadata"
+            placeholder="Custom Metadata (JSON format)"
+          ></textarea
+          ><br />
+          <button type="submit">Upload</button>
+        </form>
+        <p id="upload-status" class="status-message"></p>
+
+        <h2>Your Save Files</h2>
+        <ul id="save-files-list"></ul>
+        <p id="list-status" class="status-message"></p>
+      </div>
+    </div>
+
+    <script>
+      // Pass Supabase config from server to client-side JavaScript
+      const SUPABASE_URL = "<%= supabaseUrl %>";
+      const SUPABASE_ANON_KEY = "<%= supabaseAnonKey %>";
+    </script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

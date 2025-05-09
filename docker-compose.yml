@@ -1,0 +1,21 @@
+version: '3.8' # Specifies the Docker Compose file format version
+
+services:
+  backend:
+    build:
+      context: . # Use the Dockerfile in the current directory
+      dockerfile: Dockerfile
+    image: supabase-cloud-save-backend # You can name your image whatever you like
+    container_name: supabase_cloud_save_backend_app # A friendly name for the running container
+    ports:
+      - '${APP_PORT:-3000}:3000' # Map host port (from .env or default 3000) to container port 3000
+        # The container internally listens on port defined by EXPOSE in Dockerfile or its own PORT env var if used by the app
+    env_file:
+      - .env # Load environment variables from the .env file
+    # For development with nodemon, you might want to mount your code volume
+    # This allows changes in your local code to be reflected inside the container without rebuilding.
+    # Ensure nodemon is a devDependency and change CMD in package.json or Dockerfile appropriately.
+    # volumes:
+    #   - .:/usr/src/app  # Mount current directory to workdir in container
+    #   - /usr/src/app/node_modules # Exclude node_modules from being overwritten by the host mount
+    restart: unless-stopped # Or 'always', 'on-failure'

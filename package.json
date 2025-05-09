@@ -1,0 +1,32 @@
+{
+  "name": "supabase-cloud-save-backend",
+  "version": "1.0.0",
+  "description": "Backend for cloud save system using Supabase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "format:check": "prettier --check \"**/*.{js,json,yml,yaml,md}\""
+  },
+  "keywords": [
+    "supabase",
+    "cloud-save",
+    "gamedev"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.17.0",
+    "multer": "^1.4.5-lts.1",
+    "pino": "^8.0.0",
+    "pino-http": "^10.4.0",
+    "prom-client": "^15.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0",
+    "pino-pretty": "^10.0.0",
+    "prettier": "^3.5.3"
+  }
+}

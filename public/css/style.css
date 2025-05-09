@@ -1,0 +1,103 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="file"],
+textarea {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+#logout-button {
+  background-color: #d9534f;
+}
+
+#logout-button:hover {
+  background-color: #c9302c;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+}
+
+.status-message {
+  color: green;
+  font-size: 0.9em;
+}
+
+#save-files-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#save-files-list li {
+  background: #eee;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+#save-files-list li strong {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+#save-files-list li button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  margin-right: 5px;
+  align-self: flex-start;
+}
+
+#save-files-list li pre {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.85em;
+}

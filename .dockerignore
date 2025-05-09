@@ -1,0 +1,30 @@
+# Git specific files
+.git
+.gitignore
+
+# Docker specific files
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Node.js modules (these will be installed inside the container)
+node_modules
+npm-debug.log
+
+# Environment files (these should be passed in at runtime, not baked into the image)
+.env
+.env.*
+!.env.example
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Optional: Add any build artifacts or local development files
+# dist/
+# coverage/
+*.log 
