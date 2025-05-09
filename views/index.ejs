@@ -11,19 +11,28 @@
     <div class="container">
       <h1>Cloud Save Manager</h1>
 
-      <div id="auth-section">
-        <h2>Login</h2>
-        <form id="login-form">
-          <input type="email" id="email" placeholder="Email" required /><br />
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-          /><br />
-          <button type="submit">Login</button>
-        </form>
-        <p id="auth-error" class="error-message"></p>
+      <div id="auth-container">
+        <div id="login-view">
+          <h2>Login</h2>
+          <form id="login-form">
+            <input type="email" id="email-login" placeholder="Email" required /><br />
+            <input type="password" id="password-login" placeholder="Password" required /><br />
+            <button type="submit">Login</button>
+          </form>
+          <p id="auth-error-login" class="error-message"></p>
+          <p>No account? <a href="#" id="show-register-link">Register here</a></p>
+        </div>
+
+        <div id="register-view" style="display: none">
+          <h2>Register</h2>
+          <form id="register-form">
+            <input type="email" id="email-register" placeholder="Email" required /><br />
+            <input type="password" id="password-register" placeholder="Password (min 6 chars)" required /><br />
+            <button type="submit">Register</button>
+          </form>
+          <p id="auth-message-register" class="status-message"></p>
+          <p>Already have an account? <a href="#" id="show-login-link">Login here</a></p>
+        </div>
       </div>
 
       <div id="user-section" style="display: none">
@@ -35,17 +44,8 @@
         <h2>Upload Save File</h2>
         <form id="upload-form">
           <input type="file" id="savefile" name="savefile" required /><br />
-          <input
-            type="text"
-            id="version"
-            name="version"
-            placeholder="Version (e.g., 1.0)"
-          /><br />
-          <textarea
-            id="custom_metadata"
-            name="custom_metadata"
-            placeholder="Custom Metadata (JSON format)"
-          ></textarea
+          <input type="text" id="version" name="version" placeholder="Version (e.g., 1.0)" /><br />
+          <textarea id="custom_metadata" name="custom_metadata" placeholder="Custom Metadata (JSON format)"></textarea
           ><br />
           <button type="submit">Upload</button>
         </form>
@@ -59,8 +59,8 @@
 
     <script>
       // Pass Supabase config from server to client-side JavaScript
-      const SUPABASE_URL = "<%= supabaseUrl %>";
-      const SUPABASE_ANON_KEY = "<%= supabaseAnonKey %>";
+      const SUPABASE_URL = '<%= supabaseUrl %>';
+      const SUPABASE_ANON_KEY = '<%= supabaseAnonKey %>';
     </script>
     <script src="/js/app.js"></script>
   </body>

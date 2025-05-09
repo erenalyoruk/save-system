@@ -18,15 +18,30 @@ const uploadStatusP = document.getElementById('upload-status');
 const saveFilesListUL = document.getElementById('save-files-list');
 const listStatusP = document.getElementById('list-status');
 
+const authContainer = document.getElementById('auth-container');
+const loginView = document.getElementById('login-view');
+const registerView = document.getElementById('register-view');
+const showRegisterLink = document.getElementById('show-register-link');
+const showLoginLink = document.getElementById('show-login-link');
+
+const registerForm = document.getElementById('register-form');
+const emailRegisterInput = document.getElementById('email-register');
+const passwordRegisterInput = document.getElementById('password-register');
+const authMessageRegisterP = document.getElementById('auth-message-register');
+
+const emailLoginInput = document.getElementById('email-login');
+const passwordLoginInput = document.getElementById('password-login');
+const authErrorLoginP = document.getElementById('auth-error-login');
+
 let currentUser = null;
 let currentSession = null;
 
 // --- Authentication ---
 async function handleLogin(event) {
   event.preventDefault();
-  authErrorP.textContent = '';
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+  authErrorLoginP.textContent = '';
+  const email = emailLoginInput.value;
+  const password = passwordLoginInput.value;
 
   try {
     const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -35,7 +50,7 @@ async function handleLogin(event) {
     });
 
     if (error) {
-      authErrorP.textContent = `Login failed: ${error.message}`;
+      authErrorLoginP.textContent = `Login failed: ${error.message}`;
       console.error('Login error:', error);
       return;
     }
@@ -46,10 +61,10 @@ async function handleLogin(event) {
       updateUIVisibility(true);
       loadSaveFiles();
     } else {
-      authErrorP.textContent = 'Login failed. No user data received.';
+      authErrorLoginP.textContent = 'Login failed. No user data received.';
     }
   } catch (err) {
-    authErrorP.textContent = `Login error: ${err.message}`;
+    authErrorLoginP.textContent = `Login error: ${err.message}`;
     console.error('Login exception:', err);
   }
 }
@@ -68,13 +83,17 @@ async function handleLogout() {
 
 function updateUIVisibility(isLoggedIn) {
   if (isLoggedIn) {
-    authSection.style.display = 'none';
+    authContainer.style.display = 'none';
     userSection.style.display = 'block';
     userEmailSpan.textContent = currentUser.email;
   } else {
-    authSection.style.display = 'block';
+    authContainer.style.display = 'block';
     userSection.style.display = 'none';
     userEmailSpan.textContent = '';
+    registerView.style.display = 'none';
+    loginView.style.display = 'block';
+    authMessageRegisterP.textContent = '';
+    authErrorLoginP.textContent = '';
   }
 }
 
@@ -217,6 +236,80 @@ saveFilesListUL.addEventListener('click', (event) => {
     handleDelete(event.target.dataset.filename);
   }
 });
+
+// --- Authentication UI Toggling ---
+showRegisterLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  loginView.style.display = 'none';
+  registerView.style.display = 'block';
+  authErrorLoginP.textContent = '';
+});
+
+showLoginLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  registerView.style.display = 'none';
+  loginView.style.display = 'block';
+  authMessageRegisterP.textContent = '';
+});
+
+// --- Registration Function ---
+async function handleRegistration(event) {
+  event.preventDefault();
+  authMessageRegisterP.textContent = '';
+  authMessageRegisterP.className = 'status-message';
+  const email = emailRegisterInput.value;
+  const password = passwordRegisterInput.value;
+
+  if (password.length < 6) {
+    authMessageRegisterP.textContent = 'Password must be at least 6 characters long.';
+    authMessageRegisterP.className = 'error-message';
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      authMessageRegisterP.textContent = `Registration failed: ${error.message}`;
+      authMessageRegisterP.className = 'error-message';
+      console.error('Registration error:', error);
+      return;
+    }
+
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+      authMessageRegisterP.textContent =
+        'Registration successful! Please check your email to confirm your account if required.';
+      authMessageRegisterP.className = 'success-message';
+      registerForm.reset();
+    } else if (data.session) {
+      currentUser = data.user;
+      currentSession = data.session;
+      authMessageRegisterP.textContent = 'Registration successful! You are now logged in.';
+      authMessageRegisterP.className = 'success-message';
+      registerForm.reset();
+      setTimeout(() => {
+        updateUIVisibility(true);
+        loadSaveFiles();
+      }, 1500);
+    } else if (data.user) {
+      authMessageRegisterP.textContent = 'Registration successful! Please check your email to confirm your account.';
+      authMessageRegisterP.className = 'success-message';
+      registerForm.reset();
+    } else {
+      authMessageRegisterP.textContent = 'Registration attempted. Please check your email or try logging in.';
+    }
+  } catch (err) {
+    authMessageRegisterP.textContent = `Registration error: ${err.message}`;
+    authMessageRegisterP.className = 'error-message';
+    console.error('Registration exception:', err);
+  }
+}
+
+// --- Add Event Listener for Registration Form ---
+registerForm.addEventListener('submit', handleRegistration);
 
 // --- Utility ---
 function formatBytes(bytes, decimals = 2) {
